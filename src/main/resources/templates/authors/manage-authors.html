@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Authors</title>
+<!-- Bootstrap CSS -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+<style>
+/* Add custom styles here if needed */
+</style>
+</head>
+<body>
+	<div th:replace="~{dashboard :: navbar}"></div>
+
+	<div class="container mt-4">
+		<h3 class="text-center mb-4">Manage Authors</h3>
+
+		<!-- Display session message -->
+		<div th:if="${message}"
+			th:classappend="${message.startsWith('Author deleted') ? 'alert-danger' : 'alert-success'}"
+			class="alert pb-0">
+			<p th:text="${message}"></p>
+		</div>
+
+		<!-- Display Authors Table -->
+		<div class="card">
+			<div
+				class="card-header d-flex justify-content-between align-items-center">
+				<h5 class="mb-0">Authors</h5>
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button"
+						id="dropdownMenuButton" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">Records per
+						page</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item" href="?size=5">5</a> <a
+							class="dropdown-item" href="?size=10">10</a> <a
+							class="dropdown-item" href="?size=15">15</a> <a
+							class="dropdown-item" href="?size=20">20</a> <a
+							class="dropdown-item" href="?size=25">25</a>
+					</div>
+				</div>
+				<a type="button" class="btn btn-primary" th:href="@{/addauthor}">Add
+					Author</a>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Loop through authors -->
+							<tr th:each="author, iterStat : ${pagedAuthors.content}">
+								<td
+									th:text="${iterStat.index + pagedAuthors.pageable.offset + 1}"></td>
+								<td th:text="${author.authorName}"></td>
+								<td>
+									<div class="btn-group" role="group">
+										<a type="button" class="btn btn-primary btn-sm"
+											th:href="@{'/editauthor/' + ${author.id}}">Edit</a> <a
+											type="button" class="btn btn-danger btn-sm"
+											th:href="@{'/deleteauthor/' + ${author.id}}">Delete</a>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- Display range of entities -->
+				<p>
+					Showing entities <span
+						th:text="${pagedAuthors.pageable.offset + 1}"></span> - <span
+						th:text="${pagedAuthors.pageable.offset + pagedAuthors.content.size()}"></span>
+					of <span th:text="${pagedAuthors.totalElements}"></span>
+				</p>
+			</div>
+		</div>
+
+		<!-- Pagination -->
+		<nav aria-label="Pagination" class="mt-4">
+			<ul class="pagination justify-content-center">
+				<li
+					th:class="${pagedAuthors.first ? 'page-item disabled' : 'page-item'}">
+					<a class="page-link"
+					th:href="@{'?page=' + (${pagedAuthors.number} - 1)}">Previous</a>
+				</li>
+				<li
+					th:each="page : ${#numbers.sequence(0, pagedAuthors.totalPages - 1)}"
+					th:class="${pagedAuthors.number == page + 1 ? 'page-item active' : 'page-item'}">
+					<a class="page-link" th:href="@{'?page=' + ${page + 1}}">[[${page
+						+ 1}]]</a>
+				</li>
+				<li
+					th:class="${pagedAuthors.last ? 'page-item disabled' : 'page-item'}">
+					<a class="page-link"
+					th:href="@{'?page=' + (${pagedAuthors.number} + 1)}">Next</a>
+				</li>
+			</ul>
+		</nav>
+
+
+	</div>
+
+	<!-- Bootstrap JS and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			// Manually initialize Bootstrap dropdowns
+			$('.dropdown-toggle').click(function() {
+				$(this).next('.dropdown-menu').toggleClass('show');
+			});
+
+			$(document).click(function(e) {
+				if (!$(e.target).closest('.dropdown').length) {
+					$('.dropdown-menu').removeClass('show');
+				}
+			});
+		});
+	</script>
+</body>
+</html>

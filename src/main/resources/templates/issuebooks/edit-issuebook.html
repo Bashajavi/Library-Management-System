@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Update Issue Book</title>
+<!-- Bootstrap CSS -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	rel="stylesheet">
+</head>
+<body>
+	<div class="container mt-4">
+		<h1 class="text-center mb-4">Update Issue Book</h1>
+
+		<!-- Update Issue Book Form -->
+		<div class="card mb-4">
+			<div class="card-header">Update Issue Book</div>
+			<div class="card-body">
+				<form th:action="@{/editissuebook/{id}(id=${issueBook.id})}"
+					th:object="${issueBook}" method="post">
+					<div class="form-group">
+						<label for="book">Book:</label> <select class="form-control"
+							id="book" th:field="*{book.id}">
+							<option value="">-- Select Book --</option>
+							<option th:each="bookItem : ${books}" th:value="${bookItem.id}"
+								th:text="${bookItem.bookName}"
+								th:selected="${bookItem.id == issueBook.book.id}"></option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="student">Student:</label> <select class="form-control"
+							id="student" th:field="*{student.id}">
+							<option value="">-- Select Student --</option>
+							<option th:each="studentItem : ${students}"
+								th:value="${studentItem.id}"
+								th:text="${studentItem.studentName}"
+								th:selected="${studentItem.id == issueBook.student.id}"></option>
+						</select>
+					</div>
+
+					<div class="form-group">
+					    <label for="issueDate">Issue Date:</label> 
+					    <input type="date" class="form-control" id="issueDate" th:field="*{issueDate}" th:value="${#temporals.format(issueBook.issueDate, 'yyyy-MM-dd')}">
+					</div>
+					<div class="form-group">
+					    <label for="returnDate">Return Date:</label> 
+					    <input type="date" class="form-control" id="returnDate" th:field="*{returnDate}" th:value="${#temporals.format(issueBook.returnDate, 'yyyy-MM-dd')}">
+					</div>
+
+					<div class="form-group">
+						<label for="status">Status:</label> <select class="form-control"
+							id="status" th:field="*{returned}">
+							<option value="true" th:selected="${issueBook.returned}">Returned</option>
+							<option value="false" th:selected="${!issueBook.returned}">Not
+								Returned</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary">Update Issue
+						Book</button>
+				</form>
+								
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

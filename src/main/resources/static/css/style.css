@@ -1,0 +1,35 @@
+/* Custom styles for cards */
+.card-custom {
+    border: none;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.card-custom:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-header-custom {
+    background-color: #343a40;
+    color: #fff;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 15px;
+}
+
+.card-title-custom {
+    margin-bottom: 0;
+}
+
+.card-body-custom {
+    padding: 20px;
+}
+
+.card-footer-custom {
+    background-color: #f8f9fa;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 15px;
+}

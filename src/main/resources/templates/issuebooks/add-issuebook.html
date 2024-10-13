@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Book</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{dashboard :: navbar}"></div>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Issue Book</h1>
+        <!-- Issue Book Form -->
+        <div class="card mb-4">
+            <div class="card-header">
+                Issue Book
+            </div>
+            <div class="card-body">
+                <form th:action="@{/addissuebook}" th:object="${issueBook}" method="post">
+                    <div class="form-group">
+                        <label for="book">Select Book:</label>
+                        <select class="form-control" id="book" th:field="*{book}">
+                            <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.bookName}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="student">Select Student:</label>
+                        <select class="form-control" id="student" th:field="*{student}">
+                            <option th:each="student : ${students}" th:value="${student.id}" th:text="${student.studentName}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="issueDate">Issue Date:</label>
+                        <input type="date" class="form-control" id="issueDate" th:field="*{issueDate}">
+                    </div>
+                    <div class="form-group">
+                        <label for="returnDate">Return Date:</label>
+                        <input type="date" class="form-control" id="returnDate" th:field="*{returnDate}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Issue Book</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
